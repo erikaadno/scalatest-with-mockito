@@ -16,4 +16,6 @@ class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository) {
   def getHeadThrees(): Future[Seq[Int]] = getNumbers().map(_.filter(_.toString.startsWith("3")))
 
   def getLength3Numbers(): Future[Seq[Int]] = getNumbers().map(_.filter(_.toString.length == 3))
+
+  def sumHeadThreesAndLength3(): Future[Int] = Future(0)
 }
