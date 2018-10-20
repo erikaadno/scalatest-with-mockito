@@ -11,5 +11,5 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository) {
   def getNumbers(): Future[Seq[Int]] = numbersRepository.list()
 
-  def getThrees(): Future[Seq[Int]] = Future(Seq(3, 3, 3, 3))
+  def getThrees(): Future[Seq[Int]] = getNumbers().map(_.filter(_ == 3))
 }
