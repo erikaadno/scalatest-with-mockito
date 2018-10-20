@@ -12,4 +12,6 @@ class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository) {
   def getNumbers(): Future[Seq[Int]] = numbersRepository.list()
 
   def getThrees(): Future[Seq[Int]] = getNumbers().map(_.filter(_ == 3))
+
+  def getHeadThrees(): Future[Seq[Int]] = Future(Seq())
 }
