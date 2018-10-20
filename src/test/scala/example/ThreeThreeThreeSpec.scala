@@ -23,4 +23,20 @@ class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar {
       })
     }
   }
+
+   describe("getThrees") {
+    it("たくさんの数字から3だけを取り出す") {
+      val numbersRepo = mock[NumbersRepository]
+      val three3 = new ThreeThreeThree(numbersRepo)
+      val three3Spy = spy(three3)
+
+      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+
+      val threesFuture = three3.getThrees()
+
+      threesFuture.map(threes => {
+        assert(threes == Seq(3, 3, 3, 3))
+      })
+    }
+  }
 }
