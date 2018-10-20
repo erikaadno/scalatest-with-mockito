@@ -17,5 +17,9 @@ class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository) {
 
   def getLength3Numbers(): Future[Seq[Int]] = getNumbers().map(_.filter(_.toString.length == 3))
 
-  def sumHeadThreesAndLength3(): Future[Int] = Future(1240)
+  def sumHeadThreesAndLength3(): Future[Int] =
+    for{
+      headThrees <- getHeadThrees()
+      length3Numbers <- getLength3Numbers()
+    } yield headThrees.foldLeft(0)(_ + _) + length3Numbers.foldLeft(0)(_ + _)
 }

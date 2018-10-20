@@ -144,5 +144,3 @@ class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar {
     }
   }
 }
-
-}
