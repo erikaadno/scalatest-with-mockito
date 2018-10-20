@@ -114,19 +114,35 @@ class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar {
     }
 
     describe("sumHeadThreesAndLength3") {
-      it("たくさんの数字から頭文字が3の数列と長さが3の数列をそれぞれ取り出し、その合計値を求める") {
+      it("空の数列から頭文字が3の数列と長さが3の数列をそれぞれ取り出し、その合計値を求めようとしても0である") {
         val numbersRepo = mock[NumbersRepository]
         val three3 = new ThreeThreeThree(numbersRepo)
         val three3Spy = spy(three3)
 
-        when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+        when(three3Spy.getNumbers()).thenReturn(Future(Seq()))
 
         val sumHeadThreesAndLength3Future = three3.sumHeadThreesAndLength3()
 
         sumHeadThreesAndLength3Future.map(sumHeadThreesAndLength3 => {
-          assert(sumHeadThreesAndLength3 == 1240)
+          assert(sumHeadThreesAndLength3 == 0)
         })
       }
     }
+
+    it("たくさんの数字から頭文字が3の数列と長さが3の数列をそれぞれ取り出し、その合計値を求める") {
+      val numbersRepo = mock[NumbersRepository]
+      val three3 = new ThreeThreeThree(numbersRepo)
+      val three3Spy = spy(three3)
+
+      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+
+      val sumHeadThreesAndLength3Future = three3.sumHeadThreesAndLength3()
+
+      sumHeadThreesAndLength3Future.map(sumHeadThreesAndLength3 => {
+        assert(sumHeadThreesAndLength3 == 1240)
+      })
+    }
   }
+}
+
 }
