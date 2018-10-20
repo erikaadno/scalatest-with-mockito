@@ -21,5 +21,5 @@ class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository) {
     for{
       headThrees <- getHeadThrees()
       length3Numbers <- getLength3Numbers()
-    } yield headThrees.foldLeft(0)(_ + _) + length3Numbers.foldLeft(0)(_ + _)
+    } yield headThrees.sum + length3Numbers.sum
 }
