@@ -12,6 +12,9 @@ lazy val root = (project in file(".")).
       Seq(
         scalaTest % Test,
         "org.mockito" % "mockito-core" % "2.23.0" % Test,
-        "com.google.inject" % "guice" % "4.2.1"
+        "com.google.inject" % "guice" % "4.2.1",
+        "org.scalikejdbc" %% "scalikejdbc" % "3.3.0",
+        "com.h2database" % "h2" % "1.4.197",
+        "ch.qos.logback" % "logback-classic" % "1.2.3"
       )
   )

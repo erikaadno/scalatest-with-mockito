@@ -1,22 +1,56 @@
 package example
 
+import com.google.inject.{Guice, Injector}
 import org.mockito.Mockito._
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar
+import scalikejdbc.{AutoSession, ConnectionPool}
+import scalikejdbc._
 
 import scala.concurrent.Future
 
-class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar {
+class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar with BeforeAndAfter {
   val numbers = Seq(1, 2, 100, 3, 3, 100, 30, 200, 3, 30, 700, 20, 3, 33, 35)
 
+  implicit val session: DBSession = AutoSession
+
   describe("getNumbers") {
+
     it("たくさんの数字が取得できる") {
+
       val numbersRepo = mock[NumbersRepository]
       when(numbersRepo.list()).thenReturn(Future(numbers))
       val three3 = new ThreeThreeThree(numbersRepo)
 
       val numbersFuture = three3.getNumbers()
       verify(numbersRepo, times(1)).list()
+
+      numbersFuture.map(nums => {
+        assert(nums == numbers)
+      })
+    }
+
+    it("H2からたくさんの数字が取得できる") {
+    Class.forName("org.h2.Driver")
+    ConnectionPool.singleton("jdbc:h2:mem:number", "user", "pass")
+
+    sql"DROP TABLE IF EXISTS numbers".execute.apply()
+
+    sql"""
+create table numbers (
+    id serial not null primary key,
+    num int(32)
+)
+""".execute.apply()
+
+      numbers foreach { num =>
+        sql"insert into numbers (num) values ($num)".update.apply()
+      }
+
+      val injector: Injector = Guice.createInjector(new NumbersFakeRepositoryModule)
+      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val numbersFuture = three3.getNumbers()
+
 
       numbersFuture.map(nums => {
         assert(nums == numbers)
