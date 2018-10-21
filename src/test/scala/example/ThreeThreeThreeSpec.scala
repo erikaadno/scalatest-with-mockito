@@ -33,6 +33,13 @@ create table numbers (
     injector.getInstance(classOf[ThreeThreeThree])
   }
 
+  def three3SpyTuple: (ThreeThreeThree, ThreeThreeThree) = {
+    val numbersRepo = mock[NumbersRepository]
+    val three3 = new ThreeThreeThree(numbersRepo)
+    val three3Spy = spy(three3)
+    (three3, three3Spy)
+  }
+
   describe("getNumbers") {
     it("たくさんの数字が取得できる") {
       val numbersRepo = mock[NumbersRepository]
@@ -93,11 +100,9 @@ create table numbers (
 
   describe("getThrees") {
     it("空の数列からは、3が取り出せない") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
-      when(three3Spy.getNumbers).thenReturn(Future(Seq()))
+      when(three3.getNumbers).thenReturn(Future(Seq()))
 
       val threesFuture = three3.getThrees
 
@@ -107,9 +112,7 @@ create table numbers (
     }
 
     it("たくさんの数字から3だけを取り出す") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
@@ -123,9 +126,7 @@ create table numbers (
 
   describe("getHeadThrees") {
     it("空の数列からは、頭文字が3の数字は取り出せない") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
@@ -137,9 +138,7 @@ create table numbers (
     }
 
     it("たくさんの数字から頭文字が3の数字だけを取り出す") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
@@ -153,9 +152,7 @@ create table numbers (
 
   describe("getLength3Numbers") {
     it("空の数列からは、長さが3の数字は取り出せない") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
@@ -167,9 +164,7 @@ create table numbers (
     }
 
     it("たくさんの数字から長さが3の数字だけを取り出す") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
@@ -182,9 +177,7 @@ create table numbers (
 
     describe("sumHeadThreesAndLength3") {
       it("空の数列から頭文字が3の数列と長さが3の数列をそれぞれ取り出し、その合計値を求めようとしても0である") {
-        val numbersRepo = mock[NumbersRepository]
-        val three3 = new ThreeThreeThree(numbersRepo)
-        val three3Spy = spy(three3)
+        val (three3, three3Spy) = three3SpyTuple
 
         when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
@@ -197,9 +190,7 @@ create table numbers (
     }
 
     it("たくさんの数字から頭文字が3の数列と長さが3の数列をそれぞれ取り出し、その合計値を求める") {
-      val numbersRepo = mock[NumbersRepository]
-      val three3 = new ThreeThreeThree(numbersRepo)
-      val three3Spy = spy(three3)
+      val (three3, three3Spy) = three3SpyTuple
 
       when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
