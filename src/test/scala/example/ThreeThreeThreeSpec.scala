@@ -14,6 +14,24 @@ class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar w
 
   implicit val session: DBSession = AutoSession
 
+  def setupFakeDB(): Unit = {
+    Class.forName("org.h2.Driver")
+    ConnectionPool.singleton("jdbc:h2:mem:number", "user", "pass")
+
+    sql"DROP TABLE IF EXISTS numbers".execute.apply()
+
+    sql"""
+create table numbers (
+    id serial not null primary key,
+    num int(32)
+)
+""".execute.apply()
+
+    numbers foreach { num =>
+      sql"insert into numbers (num) values ($num)".update.apply()
+    }
+  }
+
   describe("getNumbers") {
 
     it("たくさんの数字が取得できる") {
@@ -31,23 +49,9 @@ class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar w
     }
 
     it("H2からたくさんの数字が取得できる") {
-    Class.forName("org.h2.Driver")
-    ConnectionPool.singleton("jdbc:h2:mem:number", "user", "pass")
+      setupFakeDB()
 
-    sql"DROP TABLE IF EXISTS numbers".execute.apply()
-
-    sql"""
-create table numbers (
-    id serial not null primary key,
-    num int(32)
-)
-""".execute.apply()
-
-      numbers foreach { num =>
-        sql"insert into numbers (num) values ($num)".update.apply()
-      }
-
-      val injector: Injector = Guice.createInjector(new NumbersFakeRepositoryModule)
+      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
       val three3 = injector.getInstance(classOf[ThreeThreeThree])
       val numbersFuture = three3.getNumbers()
 
