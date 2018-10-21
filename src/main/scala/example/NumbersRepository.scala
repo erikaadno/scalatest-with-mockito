@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 trait NumbersRepository {
   def list()(implicit session: DBSession): Future[Seq[Int]]
-  def listN(n: Int): Future[Seq[Int]]
+  def listN(n: Int)(implicit session: DBSession): Future[Seq[Int]]
 }
 
 case class Number(id: Long, num: Int)
@@ -30,7 +30,9 @@ class NumbersRepositoryImpl extends NumbersRepository {
     sql"select * from numbers".map(rs => Number(rs)).list.apply().map(_.num)
   }
 
-  override def listN(n: Int): Future[Seq[Int]] = Future(Seq())
+  override def listN(n: Int)(implicit session: DBSession): Future[Seq[Int]] = Future {
+    sql"select * from numbers limit $n".map(rs => Number(rs)).list.apply().map(_.num)
+  }
 }
 
 class NumbersRepositoryModule(implicit session: DBSession) extends AbstractModule {
