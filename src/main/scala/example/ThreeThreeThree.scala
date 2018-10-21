@@ -13,6 +13,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ThreeThreeThree @Inject()(numbersRepository: NumbersRepository)(implicit @Named("session") session: DBSession) {
   def getNumbers(): Future[Seq[Int]] = numbersRepository.list()
 
+  def get3Numbers(): Future[Seq[Int]] = Future(Seq())
+
   def getThrees(): Future[Seq[Int]] = getNumbers().map(_.filter(_ == 3))
 
   def getHeadThrees(): Future[Seq[Int]] = getNumbers().map(_.filter(_.toString.startsWith("3")))

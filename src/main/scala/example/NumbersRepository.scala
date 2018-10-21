@@ -26,8 +26,6 @@ object Number extends SQLSyntaxSupport[Number] {
 
 
 class NumbersRepositoryImpl extends NumbersRepository {
-  val n = Number.syntax("n")
-
   override def list()(implicit session: DBSession): Future[Seq[Int]] = Future {
     sql"select * from numbers".map(rs => Number(rs)).list.apply().map(_.num)
   }

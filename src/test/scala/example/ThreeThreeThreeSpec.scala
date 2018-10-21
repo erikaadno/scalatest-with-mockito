@@ -48,7 +48,7 @@ create table numbers (
       })
     }
 
-    it("H2からたくさんの数字が取得できる") {
+    it("DBからたくさんの数字が取得できる") {
       setupFakeDB()
 
       val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
@@ -58,6 +58,20 @@ create table numbers (
       numbersFuture.map(nums => {
         assert(nums == numbers)
       })
+    }
+  }
+
+  describe("get3Numbers") {
+    it("DBから3つだけ数字を取り出す") {
+      setupFakeDB()
+
+      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
+      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val threeNumbersFuture = three3.get3Numbers()
+
+      threeNumbersFuture.map(nums =>
+        assert(nums == Seq(1, 2, 100))
+      )
     }
   }
 
