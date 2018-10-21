@@ -26,14 +26,9 @@ create table numbers (
     num int(32)
 )
 """.execute.apply()
-
-    numbers foreach { num =>
-      sql"insert into numbers (num) values ($num)".update.apply()
-    }
   }
 
   describe("getNumbers") {
-
     it("たくさんの数字が取得できる") {
 
       val numbersRepo = mock[NumbersRepository]
@@ -48,8 +43,12 @@ create table numbers (
       })
     }
 
-    it("DBからたくさんの数字が取得できる") {
+    it("[FakeDB]たくさんの数字が取得できる") {
       setupFakeDB()
+
+      numbers foreach { num =>
+        sql"insert into numbers (num) values ($num)".update.apply()
+      }
 
       val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
       val three3 = injector.getInstance(classOf[ThreeThreeThree])
@@ -62,8 +61,12 @@ create table numbers (
   }
 
   describe("get3Numbers") {
-    it("DBから3つだけ数字を取り出す") {
+    it("数列から3つだけ数字を取り出す") {
       setupFakeDB()
+
+      numbers foreach { num =>
+        sql"insert into numbers (num) values ($num)".update.apply()
+      }
 
       val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
       val three3 = injector.getInstance(classOf[ThreeThreeThree])
