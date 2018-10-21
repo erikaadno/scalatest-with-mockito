@@ -11,13 +11,11 @@ import scala.concurrent.Future
 
 class ThreeThreeThreeSpec extends AsyncFunSpec with Matchers with MockitoSugar with BeforeAndAfter {
   val numbers = Seq(1, 2, 100, 3, 3, 100, 30, 200, 3, 30, 700, 20, 3, 33, 35)
-
   implicit val session: DBSession = AutoSession
+  Class.forName("org.h2.Driver")
+  ConnectionPool.singleton("jdbc:h2:mem:number", "user", "pass")
 
   def setupFakeDB(): Unit = {
-    Class.forName("org.h2.Driver")
-    ConnectionPool.singleton("jdbc:h2:mem:number", "user", "pass")
-
     sql"DROP TABLE IF EXISTS numbers".execute.apply()
 
     sql"""
