@@ -1,7 +1,7 @@
 package example
 
-import com.google.inject.AbstractModule
-import com.google.inject.name.Names
+import com.google.inject.{AbstractModule, Inject}
+import com.google.inject.name.{Named, Names}
 import scalikejdbc._
 
 import scala.concurrent.Future
@@ -11,8 +11,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
   * 数字をたくさん返すマン
   */
 trait NumbersRepository {
-  def list()(implicit session: DBSession): Future[Seq[Int]]
-  def listN(n: Int)(implicit session: DBSession): Future[Seq[Int]]
+  def list(): Future[Seq[Int]]
+
+  def listN(n: Int): Future[Seq[Int]]
 }
 
 case class Number(id: Long, num: Int)
@@ -25,12 +26,12 @@ object Number extends SQLSyntaxSupport[Number] {
 }
 
 
-class NumbersRepositoryImpl extends NumbersRepository {
-  override def list()(implicit session: DBSession): Future[Seq[Int]] = Future {
+class NumbersRepositoryImpl @Inject()(implicit @Named("session") session: DBSession) extends NumbersRepository {
+  override def list(): Future[Seq[Int]] = Future {
     sql"select * from numbers".map(rs => Number(rs)).list.apply().map(_.num)
   }
 
-  override def listN(n: Int)(implicit session: DBSession): Future[Seq[Int]] = Future {
+  override def listN(n: Int): Future[Seq[Int]] = Future {
     sql"select * from numbers limit $n".map(rs => Number(rs)).list.apply().map(_.num)
   }
 }
