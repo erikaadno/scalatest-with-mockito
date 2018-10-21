@@ -61,6 +61,18 @@ create table numbers (
   }
 
   describe("get3Numbers") {
+    it("空の数列から3つだけ数字を取り出そうとしても、取り出せない") {
+      setupFakeDB()
+
+      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
+      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val threeNumbersFuture = three3.get3Numbers()
+
+      threeNumbersFuture.map(nums =>
+        assert(nums == Seq())
+      )
+    }
+
     it("数列から3つだけ数字を取り出す") {
       setupFakeDB()
 
