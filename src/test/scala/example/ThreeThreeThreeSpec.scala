@@ -35,7 +35,7 @@ create table numbers (
       when(numbersRepo.list()).thenReturn(Future(numbers))
       val three3 = new ThreeThreeThree(numbersRepo)
 
-      val numbersFuture = three3.getNumbers()
+      val numbersFuture = three3.getNumbers
       verify(numbersRepo, times(1)).list()
 
       numbersFuture.map(nums => {
@@ -52,7 +52,7 @@ create table numbers (
 
       val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
       val three3 = injector.getInstance(classOf[ThreeThreeThree])
-      val numbersFuture = three3.getNumbers()
+      val numbersFuture = three3.getNumbers
 
       numbersFuture.map(nums => {
         assert(nums == numbers)
@@ -96,9 +96,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(Seq()))
+      when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
-      val threesFuture = three3.getThrees()
+      val threesFuture = three3.getThrees
 
       threesFuture.map(threes => {
         assert(threes == Seq())
@@ -110,9 +110,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+      when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
-      val threesFuture = three3.getThrees()
+      val threesFuture = three3.getThrees
 
       threesFuture.map(threes => {
         assert(threes == Seq(3, 3, 3, 3))
@@ -126,9 +126,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(Seq()))
+      when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
-      val headThreesFuture = three3.getHeadThrees()
+      val headThreesFuture = three3.getHeadThrees
 
       headThreesFuture.map(headThrees => {
         assert(headThrees == Seq())
@@ -140,9 +140,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+      when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
-      val headThreesFuture = three3.getHeadThrees()
+      val headThreesFuture = three3.getHeadThrees
 
       headThreesFuture.map(headThrees => {
         assert(headThrees == Seq(3, 3, 30, 3, 30, 3, 33, 35))
@@ -156,9 +156,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(Seq()))
+      when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
-      val length3NumbersFuture = three3.getLength3Numbers()
+      val length3NumbersFuture = three3.getLength3Numbers
 
       length3NumbersFuture.map(length3Numbers => {
         assert(length3Numbers == Seq())
@@ -170,9 +170,9 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+      when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
-      val length3NumbersFuture = three3.getLength3Numbers()
+      val length3NumbersFuture = three3.getLength3Numbers
 
       length3NumbersFuture.map(length3Numbers => {
         assert(length3Numbers == Seq(100, 100, 200, 700))
@@ -185,7 +185,7 @@ create table numbers (
         val three3 = new ThreeThreeThree(numbersRepo)
         val three3Spy = spy(three3)
 
-        when(three3Spy.getNumbers()).thenReturn(Future(Seq()))
+        when(three3Spy.getNumbers).thenReturn(Future(Seq()))
 
         val sumHeadThreesAndLength3Future = three3.sumHeadThreesAndLength3()
 
@@ -200,7 +200,7 @@ create table numbers (
       val three3 = new ThreeThreeThree(numbersRepo)
       val three3Spy = spy(three3)
 
-      when(three3Spy.getNumbers()).thenReturn(Future(numbers))
+      when(three3Spy.getNumbers).thenReturn(Future(numbers))
 
       val sumHeadThreesAndLength3Future = three3.sumHeadThreesAndLength3()
 
