@@ -1,7 +1,9 @@
 package example
 
 import com.google.inject.AbstractModule
+import com.google.inject.name.Names
 import scalikejdbc._
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -33,8 +35,9 @@ class NumbersRepositoryImpl extends NumbersRepository {
   override def listN(n: Int): Future[Seq[Int]] = Future(Seq())
 }
 
-class NumbersRepositoryModule extends AbstractModule {
+class NumbersRepositoryModule(implicit session: DBSession) extends AbstractModule {
   override def configure(): Unit = {
+    bind(classOf[DBSession]).annotatedWith(Names.named("session")).toInstance(session)
     bind(classOf[NumbersRepository]).to(classOf[NumbersRepositoryImpl])
   }
 }

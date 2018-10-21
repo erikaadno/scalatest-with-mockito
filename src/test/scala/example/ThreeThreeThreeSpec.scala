@@ -55,7 +55,6 @@ create table numbers (
       val three3 = injector.getInstance(classOf[ThreeThreeThree])
       val numbersFuture = three3.getNumbers()
 
-
       numbersFuture.map(nums => {
         assert(nums == numbers)
       })
