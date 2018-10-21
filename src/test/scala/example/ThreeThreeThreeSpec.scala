@@ -28,9 +28,13 @@ create table numbers (
 """.execute.apply()
   }
 
+  def three3WithFakeDB(): ThreeThreeThree = {
+    val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
+    injector.getInstance(classOf[ThreeThreeThree])
+  }
+
   describe("getNumbers") {
     it("たくさんの数字が取得できる") {
-
       val numbersRepo = mock[NumbersRepository]
       when(numbersRepo.list()).thenReturn(Future(numbers))
       val three3 = new ThreeThreeThree(numbersRepo)
@@ -50,8 +54,7 @@ create table numbers (
         sql"insert into numbers (num) values ($num)".update.apply()
       }
 
-      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
-      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val three3 = three3WithFakeDB()
       val numbersFuture = three3.getNumbers
 
       numbersFuture.map(nums => {
@@ -64,8 +67,7 @@ create table numbers (
     it("空の数列から3つだけ数字を取り出そうとしても、取り出せない") {
       setupFakeDB()
 
-      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
-      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val three3 = three3WithFakeDB()
       val threeNumbersFuture = three3.get3Numbers()
 
       threeNumbersFuture.map(nums =>
@@ -80,8 +82,7 @@ create table numbers (
         sql"insert into numbers (num) values ($num)".update.apply()
       }
 
-      val injector: Injector = Guice.createInjector(new NumbersRepositoryModule)
-      val three3 = injector.getInstance(classOf[ThreeThreeThree])
+      val three3 = three3WithFakeDB()
       val threeNumbersFuture = three3.get3Numbers()
 
       threeNumbersFuture.map(nums =>
