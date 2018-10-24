@@ -1,6 +1,8 @@
 package example
 
 import com.google.inject.{Guice, Injector}
+import example.controller.ThreeThreeThree
+import example.repository.{NumbersRepository, NumbersRepositoryModule}
 import org.mockito.Mockito._
 import org.scalatest._
 import org.scalatest.mockito.MockitoSugar

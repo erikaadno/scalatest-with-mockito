@@ -1,11 +1,10 @@
-package example
+package example.controller
 
 import com.google.inject.Inject
-import com.google.inject.name.Named
-import scalikejdbc.{AutoSession, DBSession}
+import example.repository.NumbersRepository
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * 3に魅力を感じるクラス

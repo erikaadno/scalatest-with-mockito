@@ -1,11 +1,11 @@
-package example
+package example.repository
 
-import com.google.inject.{AbstractModule, Inject}
 import com.google.inject.name.{Named, Names}
+import com.google.inject.{AbstractModule, Inject}
 import scalikejdbc._
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * 数字をたくさん返すマン
